@@ -39,5 +39,6 @@ urlpatterns = [
         template_name='authentification/password_change_done.html'),
          name='password_change_done'
          ),
+    path('signup', authentication.views.signup_page, name='signup'),
     path('home/', flux.views.home, name="home")
 ]
