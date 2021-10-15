@@ -1,20 +1,13 @@
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIT reviews</title>
-</head>
-<body>
-    <h1>LIT review</h1>
-    {% block content %}
-    {% endblock content %}
-
-    {% if user.is_authenticated %}
-        <p>
-            Vous êtes connecté en tant que {{ request.user }}.
-            <a href="{% url 'logout' %}">Se déconnecter</a>
-        </p>
-    {% endif %}
-</body>
+<html>
+    <head>
+        <title>FotoBlog</title>
+    </head>
+    <body>
+        <h1>FotoBlog</h1>
+        {% block content %}{% endblock content %}
+        {%  if user.is_authenticated %}
+            <p>Vous êtes connecté en tant que {{ user }}. <a href="{% url 'logout' %}">Se déconnecter</a></p>
+            <p>Voulez-vous <a href="{% url 'password_change' %}">changer votre mot de passe ?</a></p>
+        {% endif %}
+    </body>
 </html>

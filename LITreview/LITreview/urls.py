@@ -14,6 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView
+from django.shortcuts import redirect
 from django.urls import path
 
 import authentication.views
@@ -21,8 +23,21 @@ import flux.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', authentication.views.login_page, name='login'),
-    path('', authentication.views.LoginPageView.as_view(), name='login'),
-    path('logout/', authentication.views.logout_user, name='logout'),
+    # path('', authentication.views.login_page, name='login'),                  # Login page by function
+    # path('', authentication.views.LoginPageView.as_view(), name='login'),     # Login page by class
+    path('', LoginView.as_view(
+        template_name='authentification/login.html',
+        redirect_authenticated_user=True),
+        name='login'),                                                          # Login page by generic view
+    # path('logout/', authentication.views.logout_user, name='logout'),         # Logout page by function
+    path('logout/', LogoutView.as_view(), name='logout'),                       # Logout page by generic
+    path('change-password/', PasswordChangeView.as_view(
+        template_name='authentification\password_change_form.html'),
+         name='password_change'
+         ),
+    path('change-password-done/', PasswordChangeDoneView.as_view(
+        template_name='authentification/password_change_done.html'),
+         name='password_change_done'
+         ),
     path('home/', flux.views.home, name="home")
 ]
