@@ -30,11 +30,11 @@ class DeleteTicketForm(forms.Form):
     delete_ticket = forms.BooleanField(widget=forms.HiddenInput, initial=True)
 
 
-# # Following form
+# Following form
 # User = get_user_model()
 
 
-# class FollowUserForm(forms.ModelForm):
-#     class Meta:
-#         model = User
-#         fields = ['Follows']
+class FollowUserForm(forms.ModelForm):
+    class Meta:
+        model = models.UserFollows
+        fields = ['user', 'followed_user']

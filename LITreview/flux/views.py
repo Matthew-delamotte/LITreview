@@ -131,10 +131,16 @@ def edit_ticket(request, ticket_id):
 @login_required
 def follow_users(request):
     form = forms.FollowUserForm(instance=request.user)
+    print('request', request)
     if request.method == 'POST':
         form = forms.FollowUserForm(request.POST, instance=request.user)
         if form.is_valid():
-            form.save()
+            print('user', request.user)
+            print('followed_user', request.followed_user)
+            followed = form.save(commit=False)
+            followed.user = request.user
+            followed.followed_user = request.followed_user
+            followed.save()
             return redirect('home')
 
     return render(request, 'flux/follow_user_form.html', context={'form': form})

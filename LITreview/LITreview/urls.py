@@ -52,6 +52,7 @@ urlpatterns = [
          flux.views.edit_review, name='edit_review'),
     path('ticket/<int:ticket_id>/edit',
          flux.views.edit_ticket, name='edit_ticket'),
+    path('follow-users/', flux.views.follow_users, name='follow_users')
 ]
 
 if settings.DEBUG:
