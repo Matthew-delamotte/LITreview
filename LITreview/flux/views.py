@@ -110,23 +110,30 @@ def edit_review(request, review_id):
 def edit_ticket(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     edit_form = forms.TicketForm(instance=ticket)
-    delete_form = forms.DeleteTicketForm()
     if request.method == 'POST':
         if 'edit_ticket' in request.POST:
             edit_form = forms.TicketForm(request.POST, instance=ticket)
             if edit_form.is_valid():
                 edit_form.save()
                 return redirect('home')
-            if 'delete_blog' in request.POST:
-                delete_form = forms.DeleteTicketForm(request.POST)
-                if delete_form.is_valid():
-                    ticket.delete()
-                    return redirect('home')
     context = {
         'edit_form': edit_form,
-        'delete_form': delete_form,
 }
     return render(request, 'flux/edit_ticket.html', context=context)
+
+def delete_ticket(request, ticket_id):
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    delete_form = forms.DeleteTicketForm()
+    if request.method == 'POST':
+        if delete_form in request.POST:
+            delete_form = forms.DeleteTicketForm(request.POST)
+            if delete_form.is_valid():
+                ticket.delete()
+                return redirect('home')
+            
+    context = {'delete_form': delete_form,}
+    return render(request, 'flux/delete_ticket.html', context=context)
+    
 
 @login_required
 def follow_users(request):
@@ -135,8 +142,6 @@ def follow_users(request):
     if request.method == 'POST':
         form = forms.FollowUserForm(request.POST, instance=request.user)
         if form.is_valid():
-            print('user', request.user)
-            print('followed_user', request.followed_user)
             followed = form.save(commit=False)
             followed.user = request.user
             followed.followed_user = request.followed_user
