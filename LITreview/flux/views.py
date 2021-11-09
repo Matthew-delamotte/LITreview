@@ -123,29 +123,32 @@ def edit_ticket(request, ticket_id):
 
 def delete_ticket(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
-    delete_form = forms.DeleteTicketForm()
-    if request.method == 'POST':
-        if delete_form in request.POST:
-            delete_form = forms.DeleteTicketForm(request.POST)
-            if delete_form.is_valid():
-                ticket.delete()
-                return redirect('home')
+    # delete_form = forms.DeleteTicketForm()
+    ticket.delete()
+    return redirect('home')
+    # if request.method == 'POST':
+    #     if delete_form in request.POST:
+    #         delete_form = forms.DeleteTicketForm(request.POST)
+    #         if delete_form.is_valid():
+    #             ticket.delete()
+    #             return redirect('home')
             
-    context = {'delete_form': delete_form,}
-    return render(request, 'flux/delete_ticket.html', context=context)
+    # context = {'delete_form': delete_form,}
+    # return render(request, 'flux/delete_ticket.html', context=context)
     
 
 @login_required
-def follow_users(request):
-    form = forms.FollowUserForm(instance=request.user)
-    print('request', request)
-    if request.method == 'POST':
-        form = forms.FollowUserForm(request.POST, instance=request.user)
-        if form.is_valid():
-            followed = form.save(commit=False)
-            followed.user = request.user
-            followed.followed_user = request.followed_user
-            followed.save()
-            return redirect('home')
+def follow_users(request, user_id):
+    
+    # form = forms.FollowUserForm(instance=request.user)
+    # print('request', request)
+    # if request.method == 'POST':
+    #     form = forms.FollowUserForm(request.POST, instance=request.user)
+    #     if form.is_valid():
+    #         followed = form.save(commit=False)
+    #         followed.user = request.user
+    #         followed.followed_user = request.followed_user
+    #         followed.save()
+    #         return redirect('home')
 
     return render(request, 'flux/follow_user_form.html', context={'form': form})

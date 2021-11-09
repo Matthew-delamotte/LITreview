@@ -37,4 +37,4 @@ class DeleteTicketForm(forms.Form):
 class FollowUserForm(forms.ModelForm):
     class Meta:
         model = models.UserFollows
-        fields = ['user', 'followed_user']
+        fields = ['followed_user']
